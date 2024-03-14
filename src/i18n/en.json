@@ -1,0 +1,38 @@
+{
+  "translation": {
+    "mapMenu": "Map",
+    "imLuckyMenu": "I'm lucky",
+    "feedMenu": "Feed",
+    "messagesTitle": "Messages",
+    "upload": "Upload",
+    "profile": "Profile",
+    "settings": "Profile settings",
+    "nickname": "Nickname",
+    "fullname": "Fullname",
+    "birthLabel": "Birth date",
+    "born": "Born",
+    "hideMyself": "Hide myself from map",
+    "showFavOther": "Show my favourites to other",
+    "showCheckIns": "Show my check in history",
+    "editProfile": "Edit profile",
+    "favPlaces": "Favourites",
+    "friends": "Friends",
+    "checkIns": "Check ins",
+    "deactivateAcc": "Deactivate my account",
+    "deleteAcc": "Delete account and all user data",
+    "save": "Save",
+    "addFriend": "Add Friend",
+    "scanQrCode": "Scan QR Code"
+  },
+  "barCardTranslation": {
+    "noRate": "No rating(",
+    "soFar": "So far from you",
+    "km": "km",
+    "meters": "meters",
+    "openTo": "Open, to",
+    "todayClosed": "Today closed",
+    "undefined": "Sorry, no schedule",
+    "takeRoute": "Take a route",
+    "moreInfo": "More info"
+  }
+}

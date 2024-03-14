@@ -1,0 +1,38 @@
+{
+  "translation": {
+    "mapMenu": "Мапа",
+    "imLuckyMenu": "Мені пощастить",
+    "feedMenu": "Стрічка",
+    "messagesTitle": "Повідомлення",
+    "upload": "Загрузити",
+    "profile": "Профіль",
+    "settings": "Налаштування профілю",
+    "nickname": "Нікнейм",
+    "fullname": "Повне і'мя",
+    "birthLabel": "Дата народження",
+    "born": "Народився",
+    "hideMyself": "Не показувати мене на карті",
+    "showFavOther": "Показати фейворітс іншим",
+    "showCheckIns": "Показувати історію чекінів",
+    "editProfile": "Редагувати профайл",
+    "favPlaces": "Фейворітс",
+    "friends": "Друзі",
+    "checkIns": "Чекіни",
+    "deactivateAcc": "Деактивувати акавнт",
+    "deleteAcc": "Видалити акавнт та всі дані",
+    "save": "Зберегти",
+    "addFriend": "Додати Друга",
+    "scanQrCode": "Сканувати QR код"
+  },
+  "barCardTranslation": {
+    "noRate": "Без рейтингу",
+    "soFar": "Далеко від тебе",
+    "km": "км",
+    "meters": "метрів",
+    "openTo": "Відкрито, до",
+    "todayClosed": "Сьогодні закрито",
+    "undefined": "Вибач, розклад невідомий",
+    "takeRoute": "Поїхали!",
+    "moreInfo": "Більше.."
+  }
+}

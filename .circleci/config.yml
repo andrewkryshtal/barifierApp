@@ -1,0 +1,123 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.0.1
+
+jobs:
+  linter:
+    executor: 
+      name: node/default
+      tag: "lts"
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: npm run lint
+
+  test:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages
+      - run: npm run test
+
+  macos-build-and-test:
+    macos:
+      xcode: 13.0.0
+    environment:
+      FL_OUTPUT_DIR: output
+      FASTLANE_LANE: test
+    shell: /bin/bash --login -o pipefail
+    steps:
+      - checkout
+      - run: bundle install
+      - run:
+          name: fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
+          working_directory: ios
+      - store_artifacts:
+          path: output
+      - store_test_results:
+          path: output/scan
+
+  ios-build:
+    macos:
+      xcode: 12.5.1
+    environment:
+      FL_OUTPUT_DIR: output
+      FASTLANE_LANE: build
+    steps:
+      - checkout
+      - restore_cache:
+          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+
+      - restore_cache:
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+
+      - run: yarn install
+
+      - save_cache:
+          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+          paths:
+            - ~/.cache/yarn
+      
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+          paths:
+            - node_modules
+      
+      - restore_cache:
+          key: bundle-v1-{{ checksum "ios/Gemfile.lock" }}-{{ arch }}
+      #Pods directory is ignored to match default RN setup, but can also check them into source control
+      #https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
+      
+      - restore_cache:
+          key: pods-v1-{{ checksum "ios/Podfile.lock" }}-{{ arch }}
+      
+      - run: 
+          command: pod install
+          working_directory: ios
+      
+      - run: bundle install
+      
+      - run: bundle update
+      
+      - save_cache:
+          key: bundle-v1-{{ checksum "ios/Gemfile.lock" }}-{{ arch }}
+          paths:
+            - vendor/bundle
+      
+      - save_cache:
+          key: pods-v1-{{ checksum "ios/Podfile.lock" }}-{{ arch }}
+          paths:
+            - ios/Pods
+      
+      - run:
+          name: create bundle file
+          command: npm run build:ios
+      
+      - run:
+          name: fastlane build
+          command: bundle exec fastlane $FASTLANE_LANE
+          working_directory: ios
+      
+      - store_artifacts:
+          path: ios/output/gym/
+      
+      - run:
+          name: fastlane beta testflight
+          command: bundle exec fastlane beta
+          working_directory: ios
+workflows:
+  version: 2
+  build-deploy-testflight:
+    jobs:
+      - linter:
+          filters:
+            branches:
+              only: development
+      - approve-build-send-testflight:
+          type: approval
+      - ios-build:
+          requires:
+            - linter
+            - approve-build-send-testflight
