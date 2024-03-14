@@ -3,3 +3,4 @@ node_modules
 ios/Pods/
 ios/build/
 ios/fastlane/
+src/env.ts
